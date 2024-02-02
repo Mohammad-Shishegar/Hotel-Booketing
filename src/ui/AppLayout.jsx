@@ -7,6 +7,7 @@ import { styled } from 'styled-components'
 const Main = styled.main`
     background-color: var(--color-gray-5);
     padding: 4rem 4.8rem 6rem;
+    overflow: scroll;
 `
 
 const StyledAppLayout = styled.div`
@@ -16,13 +17,23 @@ const StyledAppLayout = styled.div`
     height: 100vh;
 `
 
+const Contaier = styled.div`
+    max-width: 120rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+`
+
 const AppLayout = () => {
     return (
         <StyledAppLayout>
             <Header />
             <Sidebar />
             <Main>
-                <Outlet />
+                <Contaier>
+                    <Outlet />
+                </Contaier>
             </Main>
         </StyledAppLayout>
     )

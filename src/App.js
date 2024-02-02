@@ -15,6 +15,7 @@ import Settings from "./pages/Settings"
 
 import GlobalStyles from "./styles/GlobalStyles"
 import AppLayout from './ui/AppLayout'
+import { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,25 +30,45 @@ function App() {
 
 
   return (
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false}/>
-        <GlobalStyles />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<Navigate replace to={"/dashboard"} />} />
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path='booking' element={<Booking />} />
-              <Route path='setting' element={<Settings />} />
-              <Route path='users' element={<Users />} />
-              <Route path='account' element={<Account />} />
-              <Route path='cabins' element={<Cabins />} />
-            </Route>
-            <Route path='login' element={<Login />} />
-            <Route path='*' element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to={"/dashboard"} />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='booking' element={<Booking />} />
+            <Route path='setting' element={<Settings />} />
+            <Route path='users' element={<Users />} />
+            <Route path='account' element={<Account />} />
+            <Route path='cabins' element={<Cabins />} />
+          </Route>
+          <Route path='login' element={<Login />} />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster
+        position='top-center'
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success:{
+            duration: 3000
+          },
+          error:{
+            duration: 5000
+          },
+          style:{
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+            backgroundColor: "var(--color-gray-0)" ,
+            color: "var(--color-gray-700)" 
+          }
+        }}
+      />
+    </QueryClientProvider>
   )
 }
 

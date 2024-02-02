@@ -35,7 +35,7 @@ const TableHeader = styled.header`
 const CabinTable = () => {
 
   const {isLoading , data:cabins , error} = useQuery({
-    queryKey:['cabin'] , // a uniqe name for this data for when we want this data from cache in another compoonent
+    queryKey:['cabins'] , // a uniqe name for this data for when we want this data from cache in another compoonent
     queryFn : getCabins
   })
 
