@@ -30,7 +30,6 @@ export const deleteCabins = async (id) => {
 
 export const createEditCabin = async (newCabin, id) => {
 
-    console.log(newCabin ,id)
 
     const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl) // for edit request
 
@@ -60,6 +59,8 @@ export const createEditCabin = async (newCabin, id) => {
     }
 
     //2-upload image
+    if(hasImagePath)
+        return data
 
     const { error: storageError } = await supabase.storage
         .from('cabins-images')
