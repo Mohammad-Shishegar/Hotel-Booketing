@@ -98,32 +98,32 @@ function CreateCabinForm({cabinToEdit = {}}) {
         <Input type="text" id="name" {...register("name", { required: "This fild is required" })} />
       {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow2> */}
-      <FormRow lable={"Cabin name"} error={errors?.name?.message}>
+      <FormRow label={"Cabin name"} error={errors?.name?.message}>
         <Input type="text" id="name" {...register("name", { required: "This fild is required" })} />
       </FormRow>
 
 
 
-      <FormRow lable={"Maximum capacity"} error={errors?.maxCapacity?.message}>
+      <FormRow label={"Maximum capacity"} error={errors?.maxCapacity?.message}>
         <Input type="number" id="maxCapacity" {...register("maxCapacity", { required: "This fild is required" , min:{value:1 , message:"Capacity should be at least 1"} })} />
       </FormRow>
 
-      <FormRow  lable={"Regular price"} error={errors?.regularPrice?.message}>
+      <FormRow  label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input type="number" id="regularPrice" {...register("regularPrice", { required: "This fild is required" })} />
       </FormRow>
 
-      <FormRow lable={"Discount"} error={errors?.discount?.message}>  
+      <FormRow label={"Discount"} error={errors?.discount?.message}>  
         <Input type="number" id="discount" defaultValue={0}  {...register("discount", { required: "This fild is required"  , min:{value:1 
           , message:"Capacity should be at least 1"}
           , validate : (value) => value <= getValues().regularPrice || "Discount Should be less than regular price"
           })} />
       </FormRow>
 
-      <FormRow lable={"Description for website"} error={errors?.description?.message}>
+      <FormRow label={"Description for website"} error={errors?.description?.message}>
         <Textarea type="number" id="description" defaultValue=""  {...register("description", { required: "This fild is required" })} />
       </FormRow>
 
-      <FormRow lable={"image"}>
+      <FormRow label={"image"}>
         <FileInput id="image" type="file" accept="image/*" {...register("image", { required: isEditSession ? false : "This fild is required" })}/>
       </FormRow>
 
