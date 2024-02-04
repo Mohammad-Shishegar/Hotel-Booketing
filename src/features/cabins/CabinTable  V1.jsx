@@ -1,8 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import styled from "styled-components";
 import Spinner from "../../ui/Spinner"
+import {getCabins} from "../../services/apiCabins"
 import CabinRow from './CabinRow';
-import useCabins from './useCabins';
 
 
 
@@ -33,7 +34,10 @@ const TableHeader = styled.header`
 
 const CabinTable = () => {
 
-  const {error , isLoading , cabins} = useCabins()
+  const {isLoading , data:cabins , error} = useQuery({
+    queryKey:['cabins'] , // a uniqe name for this data for when we want this data from cache in another compoonent
+    queryFn : getCabins
+  })
 
   if(isLoading)
     return <Spinner/>
