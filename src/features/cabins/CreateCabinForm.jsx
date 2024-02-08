@@ -50,22 +50,22 @@ const Error = styled.span`
   color: var(--color-red-700);
   `;
 
-function CreateCabinForm({cabinToEdit = {}}) {
+function CreateCabinForm({ cabinToEdit = {}, changeOpen }) {
 
-  const {id : editId , ...editValue} = cabinToEdit
-  const isEditSession = Boolean(editId) 
+  const { id: editId, ...editValue } = cabinToEdit
+  const isEditSession = Boolean(editId)
 
   const queryClient = useQueryClient()
-  const { register, handleSubmit, reset , getValues , formState} = useForm({
-    defaultValues : isEditSession ? editValue : {}
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditSession ? editValue : {}
   })
 
-  const {errors} = formState
+  const { errors } = formState
 
-  const {isCreating , createCabin } = useCreateCabin()
+  const { isCreating, createCabin } = useCreateCabin()
 
-  const {isEditing , editCabin} = useEditCabin()
-  
+  const { isEditing, editCabin } = useEditCabin()
+
   const isWorking = isCreating || isEditing
 
 
@@ -73,14 +73,20 @@ function CreateCabinForm({cabinToEdit = {}}) {
 
     const image = typeof data.image === 'string' ? data.image : data.image[0]
 
-    if(isEditSession)
-      editCabin({newCabinData : {...data , image} , id : editId} , {
-        onSuccess : () => reset()
+    if (isEditSession)
+      editCabin({ newCabinData: { ...data, image }, id: editId }, {
+        onSuccess: () => {
+          reset()
+          changeOpen?.(cv => !cv)
+        }
       })
     else
-    createCabin({...data , image : image} , {
-      onSuccess : () => reset()
-    })
+      createCabin({ ...data, image: image }, {
+        onSuccess: () => {
+          changeOpen?.(cv => !cv)
+          reset()
+        }
+      })
     // mutate({...data , image : data.image[0]})
   }
 
@@ -92,7 +98,7 @@ function CreateCabinForm({cabinToEdit = {}}) {
     return <Spinner />
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type={changeOpen ? "modal" : "regular"}>
       {/* <FormRow2>
         <Label htmlFor="name">Cabin name</Label>
         <Input type="text" id="name" {...register("name", { required: "This fild is required" })} />
@@ -105,18 +111,21 @@ function CreateCabinForm({cabinToEdit = {}}) {
 
 
       <FormRow label={"Maximum capacity"} error={errors?.maxCapacity?.message}>
-        <Input type="number" id="maxCapacity" {...register("maxCapacity", { required: "This fild is required" , min:{value:1 , message:"Capacity should be at least 1"} })} />
+        <Input type="number" id="maxCapacity" {...register("maxCapacity", { required: "This fild is required", min: { value: 1, message: "Capacity should be at least 1" } })} />
       </FormRow>
 
-      <FormRow  label={"Regular price"} error={errors?.regularPrice?.message}>
+      <FormRow label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input type="number" id="regularPrice" {...register("regularPrice", { required: "This fild is required" })} />
       </FormRow>
 
-      <FormRow label={"Discount"} error={errors?.discount?.message}>  
-        <Input type="number" id="discount" defaultValue={0}  {...register("discount", { required: "This fild is required"  , min:{value:1 
-          , message:"Capacity should be at least 1"}
-          , validate : (value) => value <= getValues().regularPrice || "Discount Should be less than regular price"
-          })} />
+      <FormRow label={"Discount"} error={errors?.discount?.message}>
+        <Input type="number" id="discount" defaultValue={0}  {...register("discount", {
+          required: "This fild is required", min: {
+            value: 1
+            , message: "Capacity should be at least 1"
+          }
+          , validate: (value) => value <= getValues().regularPrice || "Discount Should be less than regular price"
+        })} />
       </FormRow>
 
       <FormRow label={"Description for website"} error={errors?.description?.message}>
@@ -124,18 +133,18 @@ function CreateCabinForm({cabinToEdit = {}}) {
       </FormRow>
 
       <FormRow label={"image"}>
-        <FileInput id="image" type="file" accept="image/*" {...register("image", { required: isEditSession ? false : "This fild is required" })}/>
+        <FileInput id="image" type="file" accept="image/*" {...register("image", { required: isEditSession ? false : "This fild is required" })} />
       </FormRow>
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => changeOpen?.(cv => !cv)}>
           Cancel
         </Button>
         <Button disabled={isWorking}>{isEditSession ? "Edit Cabin" : "Add Cabin"}</Button>
       </FormRow>
     </Form>
-  );  
+  );
 }
 
 export default CreateCabinForm;

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import  { HiArrowCircleDown, HiArrowCircleLeft, HiArrowCircleRight, HiClock , HiXMark} from "react-icons/hi"
+import { createPortal } from "react-dom";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -48,3 +50,19 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+const Modal = ({ children , onClose }) => {
+  return createPortal (
+    <Overlay>
+      <StyledModal>
+        <div>
+          <Button onClick={onClose}> <HiArrowCircleLeft/> </Button>
+          {children}
+        </div>
+      </StyledModal>
+    </Overlay> ,
+    document.body
+  )
+}
+
+export default Modal
