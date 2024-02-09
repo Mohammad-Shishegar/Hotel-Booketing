@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import  { HiArrowCircleDown, HiArrowCircleLeft, HiArrowCircleRight, HiClock , HiXMark} from "react-icons/hi"
+import { HiArrowCircleDown, HiArrowCircleLeft, HiArrowCircleRight, HiClock, HiXMark } from "react-icons/hi"
 import { createPortal } from "react-dom";
+import { cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
+import useOutSideClick from "../hooks/useOutSideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -51,18 +53,64 @@ const Button = styled.button`
   }
 `;
 
-const Modal = ({ children , onClose }) => {
-  return createPortal (
+const ModalContext = createContext()
+
+const Modal = ({ children }) => {
+  const [openName, setOpenName] = useState("")
+
+  const close = () => setOpenName("")
+  const open = setOpenName // setOpenName(open)
+
+  return (
+    <ModalContext.Provider value={{openName , close , open}}>
+      {children}
+    </ModalContext.Provider>
+  )
+}
+
+const Open = ({ children, opens: opensWindowName }) => {
+  const { open } = useContext(ModalContext)
+
+  return cloneElement(children, { onClick: () => open(opensWindowName) })
+
+}
+
+const Window = ({ children, name }) => {  
+
+  const { openName, close } = useContext(ModalContext)
+  // const ref = useRef()
+
+  // useEffect(()=>{
+    
+  //   const handleClick = (e) => {
+  //       if(ref.current && !ref.current.contains(e.target))
+  //         close()
+  //   }
+    
+  //   document.addEventListener("click" , handleClick , true)
+    
+  //   return ()=>document.removeEventListener("click" , handleClick , true)
+    
+  // },[close])
+
+  const ref = useOutSideClick(close) //use cutome hook
+  
+  if (name !== openName) return null
+
+  return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
+          <Button onClick={close}> <HiArrowCircleLeft /> </Button>
         <div>
-          <Button onClick={onClose}> <HiArrowCircleLeft/> </Button>
-          {children}
+          {cloneElement(children, {onCloseModal : close})}
         </div>
       </StyledModal>
-    </Overlay> ,
+    </Overlay>,
     document.body
   )
 }
 
-export default Modal
+Modal.Open = Open
+Modal.Window = Window
+
+export default Modal  
