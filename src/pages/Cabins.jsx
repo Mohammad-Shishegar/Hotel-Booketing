@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import { useState } from "react";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import AddCabin from "../features/cabins/AddCabin";
+import CabinTableOprations from "../features/cabins/CabinTableOprations";
 
 function Cabins() {
 
@@ -14,7 +15,7 @@ function Cabins() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All cabins</Heading>
-        <p>Filter / Sort</p>
+        <CabinTableOprations/>
       </Row>
       <Row>
         <CabinTable />

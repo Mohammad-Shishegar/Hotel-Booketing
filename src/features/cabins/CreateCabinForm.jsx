@@ -121,7 +121,7 @@ function CreateCabinForm({ cabinToEdit = {}, changeOpen }) {
       <FormRow label={"Discount"} error={errors?.discount?.message}>
         <Input type="number" id="discount" defaultValue={0}  {...register("discount", {
           required: "This fild is required", min: {
-            value: 1
+            value: 0
             , message: "Capacity should be at least 1"
           }
           , validate: (value) => value <= getValues().regularPrice || "Discount Should be less than regular price"
