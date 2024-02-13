@@ -1,6 +1,10 @@
+import { createContext, useContext, useState } from "react";
+import { createPortal } from "react-dom";
+import { HiMenu } from "react-icons/hi";
 import styled from "styled-components";
+import useOutSideClick from "../hooks/useOutSideClick";
 
-const StyledMenu = styled.div`
+const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -60,3 +64,75 @@ const StyledButton = styled.button`
     transition: all 0.3s;
   }
 `;
+
+const MenusContext = createContext()
+
+const Menus = ({ children }) => {
+
+  const [openId, setOpenId] = useState()
+  const [position , setPosition] = useState(null)
+
+  const close = () => setOpenId("")
+  const open = setOpenId
+
+  return (
+    <MenusContext.Provider value={{ close, open, openId , position , setPosition}}>
+      {children}
+    </MenusContext.Provider>
+  )
+}
+
+const Toggle = ({ id }) => {
+  const { close, open, openId , setPosition , position} = useContext(MenusContext)
+
+  const handleClick = (e) => {
+    const rect = e.target.closest("button").getBoundingClientRect()
+    setPosition({
+      x: window.innerWidth - rect.width - rect.x,
+      y: rect.y + rect.height + 8
+    })
+
+    openId === "" || openId !== id ? open(id) : close()
+  }
+
+  return (
+    <StyledToggle onClick={handleClick}>
+      <HiMenu />
+    </StyledToggle>
+  )
+}
+const List = ({children , id}) => {
+  const { openId , position , close} = useContext(MenusContext)
+
+  const ref = useOutSideClick(close)
+
+  if (openId !== id)
+    return null
+
+  return createPortal(<StyledList position={position} ref={ref}>
+    {children}
+  </StyledList> ,document.body)
+
+}
+const Button = ({ children , icon , onClick}) => {
+  const {close} = useContext(MenusContext)
+
+  const handleClick = () => {
+    onClick?.()
+    close()
+  }
+
+  return (
+    <li>
+      <StyledButton onClick={()=>handleClick()}>{icon} {children}</StyledButton>
+    </li>
+  )
+}
+
+Menus.Menu = Menu
+Menus.Toggle = Toggle
+Menus.List = List
+Menus.Button = Button
+
+
+export default Menus
