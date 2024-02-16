@@ -9,8 +9,6 @@ import CabinTableOprations from "../features/cabins/CabinTableOprations";
 
 function Cabins() {
 
-
-
   return (
     <>
       <Row type="horizontal">
