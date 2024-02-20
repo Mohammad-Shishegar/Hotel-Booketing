@@ -1,32 +1,52 @@
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
-import { getCabins } from '../../services/apiCabins'
-import { getBooking, getBookings } from '../../services/apiBookings'
-import { useSearchParams } from 'react-router-dom'
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getBookings } from "../../services/apiBookings";
+import { useSearchParams } from "react-router-dom";
+import { PAGE_SIZE } from "../../utils/constants";
 
-const useBookings = () => {
+export function useBookings() {
+  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
 
-    const [searchParams] = useSearchParams()
+  // FILTER
+  const filterValue = searchParams.get("status");
+  const filter =
+    !filterValue || filterValue === "all"
+      ? null
+      : { field: "status", value: filterValue };
+  // { field: "totalPrice", value: 5000, method: "gte" };
 
-    //Filter
-    const filterValue = searchParams.get("status")
-    const filter = !filterValue || filterValue === "all" ? null 
-    // :{field : "totalPrice" , value : 5000 , method: "gte"}
-    : {field : "status" , value : filterValue}
+  // SORT
+  const sortByRaw = searchParams.get("sortBy") || "startDate-desc";
+  const [field, direction] = sortByRaw.split("-");
+  const sortBy = { field, direction };
 
-    //Sort By
-    const sortByRaw = searchParams.get("sortBy") || "startDate-desc"
-    const [field , direction] = sortByRaw.split("-")
-    const sortBy = {field , direction}
+  // PAGINATION
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
-    const { isLoading, data: bookings, error } = useQuery({
-        queryKey: ['booking' , filter , sortBy], 
-        // a uniqe name for this data for when we want this data from cache in another compoonent 
-        // and this like use Effect dependency  
-        queryFn: () => getBookings({filter})
-    })
+  // QUERY
+  const {
+    isLoading,
+    data: { data: bookings, count } = {},
+    error,
+  } = useQuery({
+    queryKey: ["bookings", filter, sortBy, page],
+    queryFn: () => getBookings({ filter, sortBy, page }),
+  });
 
-    return {isLoading , error , bookings}
+  // PRE-FETCHING
+  const pageCount = Math.ceil(count / PAGE_SIZE);
+
+  if (page < pageCount)
+    queryClient.prefetchQuery({
+      queryKey: ["bookings", filter, sortBy, page + 1],
+      queryFn: () => getBookings({ filter, sortBy, page: page + 1 }),
+    });
+
+  if (page > 1)
+    queryClient.prefetchQuery({
+      queryKey: ["bookings", filter, sortBy, page - 1],
+      queryFn: () => getBookings({ filter, sortBy, page: page - 1 }),
+    });
+
+  return { isLoading, error, bookings, count };
 }
-
-export default useBookings

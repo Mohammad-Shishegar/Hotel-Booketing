@@ -114,21 +114,23 @@ const List = ({children , id}) => {
   </StyledList> ,document.body)
 
 }
-const Button = ({ children , icon , onClick}) => {
-  const {close} = useContext(MenusContext)
+function Button({ children, icon, onClick }) {
+  const { close } = useContext(MenusContext);
 
-  const handleClick = () => {
-    onClick?.()
-    close()
+  function handleClick() {
+    onClick?.();
+    close();
   }
 
   return (
     <li>
-      <StyledButton onClick={()=>handleClick()}>{icon} {children}</StyledButton>
+      <StyledButton onClick={handleClick}>
+        {icon}
+        <span>{children}</span>
+      </StyledButton>
     </li>
-  )
+  );
 }
-
 Menus.Menu = Menu
 Menus.Toggle = Toggle
 Menus.List = List
