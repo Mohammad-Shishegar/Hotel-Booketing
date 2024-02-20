@@ -43,6 +43,8 @@ const Filter = ({ filterField, options }) => {
 
   const handleClick = (value) => {
     searchParams.set(filterField, value)
+    if (searchParams.get("page"))
+      searchParams.set("page", 1)
     setSearchParams(searchParams)
   }
 
@@ -52,8 +54,8 @@ const Filter = ({ filterField, options }) => {
         <FilterButton
           key={item.value}
           onClick={() => handleClick(item.value)}
-          active = {item.value === currentFilter }
-          disabled = {item.value === currentFilter }
+          active={item.value === currentFilter}
+          disabled={item.value === currentFilter}
         >{item.lable}</FilterButton>
       ))}
     </StyledFilter>
