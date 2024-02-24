@@ -50,3 +50,33 @@ export const logout = async () => {
 
   if (error) throw new Error(error.message);
 }
+
+export const updateCurrentUser = async ({fullName , avatar , password}) => {
+
+  //1. update password or fullname
+  let updateUser 
+  if(password) updateUser = {password}
+  if(fullName) updateUser = {data : {fullName}}
+
+  const {data , error} = await supabase.auth.updateUser(updateUser)
+
+  if (error) throw new Error(error.message);
+  if(!avatar)
+    return data
+
+  //2. upload avatar image 
+  const fileName = `avatar-${data.user.id}-${Math.random()}`
+  const {error : storageError} = await supabase.storage.from("avatar").upload(fileName , avatar)
+
+  if (storageError) throw new Error(storageError.message);
+
+  //3. update avatar in user
+  const {data : updatedUser , error : error2 } = await supabase.auth.updateUser({
+    data:{
+      avatar: `${supabaseUrl}/storage/v1/object/public/avatar/${fileName}`
+    }
+  })
+
+  if (error2) throw new Error(error2.message);
+  return updatedUser
+}
