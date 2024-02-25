@@ -21,7 +21,7 @@ const Sidebar = () => {
     <StyledSidebar>
         <Logo/>
         <MainNav/>  
-        <Uploader/>
+        {/* <Uploader/>  */} {/* this component for upload data to project   */}
     </StyledSidebar>
   )
 }

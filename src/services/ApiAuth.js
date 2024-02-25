@@ -2,7 +2,6 @@ import supabase, { supabaseUrl } from "./supabase";
 
 export const signUp = async ({email , password , fullName}) => {
 
-  console.log(fullName)
 
   const {data , error} = await supabase.auth.signUp({
     email ,
@@ -38,7 +37,6 @@ export const getCurrentUser = async () => {
     return null
   
   const {data , error} = await supabase.auth.getUser()
-  console.log(data)
 
   if (error) throw new Error(error.message);
 

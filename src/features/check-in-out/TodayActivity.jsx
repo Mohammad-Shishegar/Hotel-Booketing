@@ -43,7 +43,6 @@ function TodayActivity() {
 
   const { isLoading, activities } = useTodayActivity()
 
-  console.log(activities)
 
   return (
     <StyledToday>
