@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Mohammad-Shishegar/Hotel-Booketing/static/css/main.e6c13ad2.css",
-    "main.js": "/Mohammad-Shishegar/Hotel-Booketing/static/js/main.6c385639.js",
-    "static/js/289.617c0b59.chunk.js": "/Mohammad-Shishegar/Hotel-Booketing/static/js/289.617c0b59.chunk.js",
-    "index.html": "/Mohammad-Shishegar/Hotel-Booketing/index.html",
-    "main.e6c13ad2.css.map": "/Mohammad-Shishegar/Hotel-Booketing/static/css/main.e6c13ad2.css.map",
-    "main.6c385639.js.map": "/Mohammad-Shishegar/Hotel-Booketing/static/js/main.6c385639.js.map",
-    "289.617c0b59.chunk.js.map": "/Mohammad-Shishegar/Hotel-Booketing/static/js/289.617c0b59.chunk.js.map"
+    "main.css": "/Hotel-Booketing/static/css/main.e6c13ad2.css",
+    "main.js": "/Hotel-Booketing/static/js/main.f578a990.js",
+    "static/js/289.617c0b59.chunk.js": "/Hotel-Booketing/static/js/289.617c0b59.chunk.js",
+    "index.html": "/Hotel-Booketing/index.html",
+    "main.e6c13ad2.css.map": "/Hotel-Booketing/static/css/main.e6c13ad2.css.map",
+    "main.f578a990.js.map": "/Hotel-Booketing/static/js/main.f578a990.js.map",
+    "289.617c0b59.chunk.js.map": "/Hotel-Booketing/static/js/289.617c0b59.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.6c385639.js"
+    "static/js/main.f578a990.js"
   ]
 }
