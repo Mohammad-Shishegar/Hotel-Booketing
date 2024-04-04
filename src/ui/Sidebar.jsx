@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from "./Logo"
 import MainNav from "./MainNav"
 import { styled } from 'styled-components'
@@ -21,7 +21,8 @@ const Sidebar = () => {
     <StyledSidebar>
         <Logo/>
         <MainNav/>  
-        {/* <Uploader/>  */} {/* this component for upload data to project   */}
+        {/* <Uploader/>   */}
+        {/* this component for upload sample data to project   */}
     </StyledSidebar>
   )
 }

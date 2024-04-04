@@ -91,7 +91,7 @@ function CreateCabinForm({ cabinToEdit = {}, changeOpen }) {
   }
 
   const onError = (er) => {
-    // console.log(er)
+    // .log(er)
   }
 
   if (isWorking)

@@ -11,7 +11,7 @@ root.render(
     <ErrorBoundary
       FallbackComponent={ErrorFallback} 
       // on ErrorFallback component we can access to on reset Prop in the ErrorFallback props name is "resetErrorBoundary"
-      onReset={()=>window.location.replace("/")}
+      onReset={()=>window.location.replace("/Hotel-Booketing")}
     >
       <App />
     </ErrorBoundary>

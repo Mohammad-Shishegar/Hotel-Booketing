@@ -47,6 +47,7 @@ function App() {
               </ProtctedRoute>
             }>
               <Route index element={<Navigate replace to={"/dashboard"} />} />
+              <Route path='/Hotel-Booketing' element={<Navigate replace to={"/dashboard"} />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='booking' element={<Bookings />} />
               <Route path='booking/:bookingId' element={<Booking />} />
